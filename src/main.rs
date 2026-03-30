@@ -4,13 +4,10 @@ use reqwest::{
     header::{HeaderMap, HeaderName, HeaderValue, CONTENT_TYPE},
     multipart, Method,
 };
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::fs;
 use std::io::Read;
 use std::path::Path;
 use std::time::{Duration, Instant};
-use uuid::Uuid;
 
 #[derive(Subcommand, Debug)]
 enum Command {
@@ -199,6 +196,7 @@ impl From<HttpMethod> for Method {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 enum BodyType {
     None,
     Json(serde_json::Value),
@@ -396,19 +394,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Handle subcommands
     match &args.command {
         Some(Command::Save {
-            name,
-            url,
-            method,
-            headers,
-            params,
-            body,
-            json,
-            form,
+            name: _,
+            url: _,
+            method: _,
+            headers: _,
+            params: _,
+            body: _,
+            json: _,
+            form: _,
         }) => {
             eprintln!("{}", "Error: Collections not yet implemented".yellow());
             std::process::exit(1);
         }
-        Some(Command::Run { name }) => {
+        Some(Command::Run { name: _ }) => {
             eprintln!("{}", "Error: Collections not yet implemented".yellow());
             std::process::exit(1);
         }
@@ -416,18 +414,26 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             eprintln!("{}", "Error: Collections not yet implemented".yellow());
             std::process::exit(1);
         }
-        Some(Command::Delete { name }) => {
+        Some(Command::Delete { name: _ }) => {
             eprintln!("{}", "Error: Collections not yet implemented".yellow());
             std::process::exit(1);
         }
-        Some(Command::Env { list, set, name }) => {
+        Some(Command::Env {
+            list: _,
+            set: _,
+            name: _,
+        }) => {
             eprintln!(
                 "{}",
                 "Error: Environment management not yet implemented".yellow()
             );
             std::process::exit(1);
         }
-        Some(Command::Session { list, delete, name }) => {
+        Some(Command::Session {
+            list: _,
+            delete: _,
+            name: _,
+        }) => {
             eprintln!("{}", "Error: Sessions not yet implemented".yellow());
             std::process::exit(1);
         }
@@ -718,7 +724,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!(
             "{}",
             generate_curl_command(
-                &method.to_string(),
+                method.as_ref(),
                 &final_url,
                 &header_map,
                 body_str.as_deref()
@@ -759,7 +765,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!(
                 "{}{} {} | {}",
                 "Response:".dimmed(),
-                " ".repeat(1),
+                " ".to_string(),
                 get_status_color(status.as_u16()),
                 format!("{:.3}s", total.as_secs_f64()).dimmed()
             );
@@ -806,7 +812,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!(
         "{}{} {} | {} | {}",
         "Response:".dimmed(),
-        " ".repeat(1),
+        " ".to_string(),
         get_status_color(status.as_u16()),
         format_size(size),
         format!("{:.3}s", total.as_secs_f64()).dimmed()
