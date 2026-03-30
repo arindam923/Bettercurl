@@ -763,9 +763,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("Downloaded to: {}", path.cyan());
             println!();
             println!(
-                "{}{} {} | {}",
+                "{}  {} | {}",
                 "Response:".dimmed(),
-                " ",
                 get_status_color(status.as_u16()),
                 format!("{:.3}s", total.as_secs_f64()).dimmed()
             );
@@ -810,9 +809,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!();
     println!(
-        "{}{} {} | {} | {}",
+        "{}  {} | {} | {}",
         "Response:".dimmed(),
-        " ",
         get_status_color(status.as_u16()),
         format_size(size),
         format!("{:.3}s", total.as_secs_f64()).dimmed()
